@@ -1,0 +1,31 @@
+API = APLICATION PROGRMMING INTERFACE
+kumpulan function yang di mana dapat menerima
+request dari client memproses dan mengirimkan
+kemabli ulang (respon) ke client sesuai permintaa.
+atau bisa disebut sebagai komunikasi/menjembatani 
+anatar clint dan server.
+
+API - dapat terhubunh dengan API yang lainnya
+
+REST = Berjalan di atas protokol internet/ HPPT
+WA = earlang, real time, 
+Steriming vide = UDP
+ 
+JSON : sama seprti
+kalo data nya berupa gambar sesuai produsknya
+AMAZON, Google. jadi alamat gambar ketika di klik kanan
+itu nantinya berupa string yang akan di taruk di JSON
+
+- base URL () 
+
+YG penting :
+- Response code : standar respone code API http
+ ex : 200 succes, 201 create, 401 bad request : respon tidak sesuai, 404 not found : alamat tida ditemuka
+ forbidden : berkaitan dengan token,
+ 500 berkaitan dengan database
+- body
+
+
+------------------------------------------
+sebelum membuat api -> desain rest api
+- membuet nouns : boooks , dari ada kata kerja getbook
