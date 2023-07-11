@@ -47,8 +47,8 @@ func main() {
 		{Name: "rizky", Scores: []int{80}},
 		{Name: "andri", Scores: []int{90}},
 		{Name: "lola", Scores: []int{70}},
-		{Name: "lola", Scores: []int{65}},
-		{Name: "lola", Scores: []int{60}},
+		{Name: "lili", Scores: []int{65}},
+		{Name: "lulu", Scores: []int{60}},
 	}
 
 	averageScore := calculateAverageScore(students)
