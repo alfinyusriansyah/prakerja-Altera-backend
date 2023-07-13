@@ -33,9 +33,4 @@ func main() {
 		fmt.Printf("input %v student name :", i+1)
 		fmt.Scanf(student.Name[i])
 	}
-
-	for i := 0; i < 5; i++ {
-		fmt.Printf("input %v student name :", i+1)
-		fmt.Scanf(student.Name[i])
-	}
 }
