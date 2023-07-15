@@ -12,6 +12,10 @@ func CreateAuthor(c echo.Context) error {
 	author := models.Author{}
 	c.Bind(&author)
 
+	if author.Name == "" {
+		// Tangani jika nama author kosong atau buka string
+		return c.JSON(http.StatusBadRequest, "Nama author tidak boleh kosong dan harus integer")
+	}
 	result := config.DB.Create(&author)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, models.BaseResponse{
