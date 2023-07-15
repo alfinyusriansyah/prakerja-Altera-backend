@@ -26,3 +26,13 @@ func CreateAuthor(c echo.Context) error {
 		Message: "Success memasukkan data", Status: true, Data: author,
 	})
 }
+
+func GetAllAuthor(c echo.Context) error {
+	authors := []models.Author{}
+	result := config.DB.Find(&authors)
+	if result.Error != nil {
+		// Tangani jika terjadi kesalahan saat mengambil buku
+		return c.JSON(http.StatusInternalServerError, "Gagal mengambil buku")
+	}
+	return c.JSON(http.StatusOK, authors)
+}
