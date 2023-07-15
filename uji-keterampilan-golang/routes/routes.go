@@ -7,6 +7,12 @@ import (
 )
 
 func InitRoute(e *echo.Echo) *echo.Echo {
-	e.POST("/book", controllers.CreateBook)
+	e.POST("/books", controllers.CreateBook)
+	e.GET("/books", controllers.GetAllBooks)
+	e.DELETE("/books/:id", controllers.DeleteBook)
+
+	e.POST("/authors", controllers.CreateAuthor)
+	e.GET("/authors", controllers.GetAllAuthor)
+	e.GET("/authors/:AuthorId/books", controllers.GetBooksByAuthorId)
 	return e
 }
