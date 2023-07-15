@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"net/http"
-	"time"
 	"uji-keterampilan-golang/config"
 	"uji-keterampilan-golang/models"
 
@@ -12,10 +11,6 @@ import (
 func CreateBook(c echo.Context) error {
 	book := models.Book{}
 	c.Bind(&book)
-
-	currentTime := time.Now()
-	book.CreatedAt = currentTime
-	book.UpdatedAt = currentTime
 
 	result := config.DB.Create(&book)
 	if result.Error != nil {

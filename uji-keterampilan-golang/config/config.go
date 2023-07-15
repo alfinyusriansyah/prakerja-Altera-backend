@@ -37,4 +37,6 @@ func loadEnv() {
 
 func migration() {
 	DB.AutoMigrate(&models.Book{})
+	DB.AutoMigrate(&models.Author{})
+
 }
