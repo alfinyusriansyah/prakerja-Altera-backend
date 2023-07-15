@@ -22,16 +22,3 @@ func CreateAuthor(c echo.Context) error {
 		Message: "Success memasukkan data", Status: true, Data: author,
 	})
 }
-
-func GetBooksByAuthorId(c echo.Context) error {
-	AuthorId := c.Param("AuthorId")
-
-	author := models.Author{}
-	result := config.DB.Preload("Books").First(&author, AuthorId)
-	if result.Error != nil {
-		// Tangani jika tidak dapat menemukan penulis atau kesalahan lainnya
-		return c.JSON(http.StatusInternalServerError, "Gagal mendapatkan buku penulis")
-	}
-
-	return c.JSON(http.StatusOK, author.Books)
-}
