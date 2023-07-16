@@ -71,8 +71,8 @@ func GetBooksByAuthorId(c echo.Context) error {
 func DeleteBook(c echo.Context) error {
 	book_id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]interface{}{
-			"error": "Invalid book ID",
+		return c.JSON(http.StatusBadRequest, models.BaseResponse{
+			Message: "Invalid Book ID", Status: false, Data: nil,
 		})
 	}
 
@@ -94,5 +94,46 @@ func DeleteBook(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, models.BaseResponse{
 		Message: "Book deleted successfully",
+	})
+}
+
+func UpdateBook(c echo.Context) error {
+	book_id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.BaseResponse{
+			Message: "Invalid Book ID", Status: false, Data: nil,
+		})
+	}
+
+	// Binding data dari body request ke objek buku
+	var input models.Book
+	if err := c.Bind(&input); err != nil {
+		return err
+	}
+
+	result := config.DB.Model(&models.Book{}).Where("id = ?", book_id).Updates(input)
+	if result.Error != nil {
+		return c.JSON(http.StatusInternalServerError, models.BaseResponse{
+			Message: "Failed to update book", Status: false, Data: nil,
+		})
+	}
+
+	// Periksa apakah ada data buku yang diupdate
+	if result.RowsAffected == 0 {
+		return c.JSON(http.StatusInternalServerError, models.BaseResponse{
+			Message: "book not found", Status: false, Data: nil,
+		})
+	}
+	// Mengambil data buku yang telah diperbarui dari database
+	var updatedBook models.Book
+	if err := config.DB.First(&updatedBook, book_id).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, models.BaseResponse{
+			Message: "Failed to retrieve updated book", Status: false, Data: nil,
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Book updated successfully",
+		"book":    updatedBook,
 	})
 }
