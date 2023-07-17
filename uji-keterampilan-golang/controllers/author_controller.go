@@ -66,3 +66,44 @@ func DeleteAuthor(c echo.Context) error {
 		Message: "Author deleted successfully",
 	})
 }
+
+func UpdateAuthor(c echo.Context) error {
+	author_id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.BaseResponse{
+			Message: "Invalid author ID", Status: false, Data: nil,
+		})
+	}
+
+	// Binding data dari body request ke objek buku
+	var input models.Author
+	if err := c.Bind(&input); err != nil {
+		return err
+	}
+
+	result := config.DB.Model(&models.Author{}).Where("id = ?", author_id).Updates(input)
+	if result.Error != nil {
+		return c.JSON(http.StatusInternalServerError, models.BaseResponse{
+			Message: "Failed to update Author", Status: false, Data: nil,
+		})
+	}
+
+	// Periksa apakah ada data buku yang diupdate
+	if result.RowsAffected == 0 {
+		return c.JSON(http.StatusInternalServerError, models.BaseResponse{
+			Message: "Author not found", Status: false, Data: nil,
+		})
+	}
+	// Mengambil data buku yang telah diperbarui dari database
+	var updatedAuthor models.Author
+	if err := config.DB.First(&updatedAuthor, author_id).Error; err != nil {
+		return c.JSON(http.StatusInternalServerError, models.BaseResponse{
+			Message: "Failed to retrieve updated author", Status: false, Data: nil,
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "author updated successfully",
+		"author":  updatedAuthor,
+	})
+}
